@@ -16,6 +16,7 @@ class HangpersonGame
     @word.length.times {@word_with_guesses << "-"}
     @check_win_or_lose = :play
     @guess_count = 0
+    @valid = false
   end
 
     attr_accessor :word
@@ -24,16 +25,19 @@ class HangpersonGame
     attr_accessor :word_with_guesses
     attr_accessor :check_win_or_lose
     attr_accessor :guess_count
+    attr_accessor :valid
 
 
   def guess(g)
     raise ArgumentError, 'Fix that arg' unless !['','%',nil].include? g
+    @valid = false
     if !(wrong_guesses.downcase.include?(g.downcase) || guesses.downcase.include?(g.downcase))then
         @guess_count += 1
         if @guess_count == 7
             @check_win_or_lose = :lose
         end
         if word.downcase.include?(g.downcase) then
+            @valid = true
             @guesses << g
             update_word_with_guesses()
             if @word == @word_with_guesses then 
