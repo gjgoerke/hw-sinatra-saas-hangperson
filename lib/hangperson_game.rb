@@ -17,6 +17,7 @@ class HangpersonGame
     @check_win_or_lose = :play
     @guess_count = 0
     @valid = false
+    @repeat = false
   end
 
     attr_accessor :word
@@ -26,12 +27,13 @@ class HangpersonGame
     attr_accessor :check_win_or_lose
     attr_accessor :guess_count
     attr_accessor :valid
+    attr_accessor :repeat
 
 
   def guess(g)
     raise ArgumentError, 'Fix that arg' unless !['','%',nil].include? g
-    @valid = false
     if !(wrong_guesses.downcase.include?(g.downcase) || guesses.downcase.include?(g.downcase))then
+        @repeat = false
         @guess_count += 1
         if @guess_count == 7
             @check_win_or_lose = :lose
@@ -44,9 +46,11 @@ class HangpersonGame
                 @check_win_or_lose = :win
             end
         else
+            @valid = false 
             @wrong_guesses << g
         end
     else 
+        @repeat = true
         return false
     end
   end

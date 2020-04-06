@@ -40,15 +40,14 @@ class HangpersonApp < Sinatra::Base
   post '/guess' do
     letter = params[:guess].to_s[0]
     ### YOUR CODE HERE ###
-    if @game.guess(letter)
-        if @game.valid == false 
-            flash[:message] = "Invalid guess."
-        end
-        redirect '/show'
-    else
-        flash[:message] = "You have already used that letter."
-        redirect '/show'
+    @game.guess(letter)
+    if @game.valid == false 
+        flash[:message] = "Invalid guess."
     end
+    if @game.repeat then
+        flash[:message] = "You have already used that letter."
+    end
+    redirect '/show'
   end
   
   # Everytime a guess is made, we should eventually end up at this route.
