@@ -33,9 +33,7 @@ class HangpersonGame
     raise ArgumentError, 'Fix that arg' unless !['','%',nil].include? g
     if !(wrong_guesses.downcase.include?(g.downcase) || guesses.downcase.include?(g.downcase))then
         @repeat = false
-        if @guess_count == 7
-            @check_win_or_lose = :lose
-        end
+
         if word.downcase.include?(g.downcase) then
             @valid = true
             @guesses << g
@@ -47,6 +45,9 @@ class HangpersonGame
             @guess_count += 1
             @valid = false 
             @wrong_guesses << g
+        end
+        if @wrong_guesses.length >= 7
+            @check_win_or_lose = :lose
         end
     else 
         @repeat = true
